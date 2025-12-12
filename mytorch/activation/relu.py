@@ -3,17 +3,13 @@ from mytorch import Tensor, Dependency
 
 def relu(x: Tensor) -> Tensor:
     "TODO: implement relu function"
-
-    # use np.maximum
-    data = ...
-    req_grad = ...
-
-    if req_grad:
+    data = np.maximum(0, x.data)
+    requires_grad = x.requires_grad
+    
+    if requires_grad:
         def grad_fn(grad: np.ndarray):
-            # use np.where
-            return ...
-
+            return grad * (x.data > 0)
         depends_on = [Dependency(x, grad_fn)]
     else:
         depends_on = []
-    return Tensor(data=data, requires_grad=req_grad, depends_on=depends_on)
+    return Tensor(data=data, requires_grad=requires_grad, depends_on=depends_on)

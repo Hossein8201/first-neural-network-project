@@ -18,8 +18,10 @@ class Model:
     def parameters(self) -> List[Layer]:
         params = []
         for _, attribValue in self.__dict__.items():
-            if isinstance(attribValue, (Conv2d, Linear)):
-                params.append(attribValue)
+            if isinstance(attribValue, Layer):
+                layer_params = attribValue.parameters()
+                if layer_params:
+                    params.extend(layer_params)
         return params
 
     def summary(self):
